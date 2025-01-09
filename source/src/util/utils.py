@@ -1,6 +1,7 @@
 import re
 import json
 import os
+import tarfile
 import nltk #import library nltk
 nltk.download('punkt', quiet=True)
 from nltk.tokenize import word_tokenize #import word_tokenize for tokenizing text into words
@@ -21,7 +22,10 @@ class TextUtils:
         self.singkatanList = self.read_txt(os.path.join(curr_dir,'../corpuses/singkatanIndolower.txt'))
         self.engrootCorpus = self.read_txt(os.path.join(curr_dir,'../corpuses/englishwordsDwyl_final.txt'))
         self.iklanWords = self.read_txt(os.path.join(curr_dir,'../corpuses/kataiklanCustom.txt'))
-        self.ngramCorpus = list(self.read_txt(os.path.join(curr_dir,'../corpuses/ngramDataset1m_all.txt')))
+        if not os.path.exists(os.path.join(curr_dir,'../corpuses/ngramDataset1m_all.txt')):
+            with tarfile.open(os.path.join(curr_dir,'../corpuses/ngramDataset1m_all.tar.xz')) as ngramCorpus_unpack:
+                ngramCorpus_unpack.extractall(path=os.path.join(curr_dir,'../corpuses'))
+        self.ngramCorpus = self.read_txt(os.path.join(curr_dir,'../corpuses/ngramDataset1m_all.txt'))
         with open(os.path.join(curr_dir,'../corpuses/abbrevFix.json'), 'r', encoding='utf-8') as jsonAbbrev:
             self.abbreviations = json.load(jsonAbbrev)
         with open(os.path.join(curr_dir,'../corpuses/digitConv.json'), 'r', encoding='utf-8') as jsonDigits:

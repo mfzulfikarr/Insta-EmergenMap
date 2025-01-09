@@ -37,7 +37,8 @@ except Exception as e:
     sys.exit(1)
 posts = profile.get_posts()
 directory = os.path.join(curr_dir, "../scrape-results")
-os.makedirs(directory, exist_ok=True)
+if not os.path.exists(directory):
+    os.makedirs(directory, exist_ok=True)
 # Using it's date and time of the posts for the filename because it's simpler to process :v
 def save_caption(post):
     filename = os.path.join(directory, post.date_utc.strftime("%Y-%m-%d_%H-%M-%S_UTC.txt"))

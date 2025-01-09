@@ -13,6 +13,8 @@ import re
 import numpy as np
 import os
 curr_dir = os.path.dirname(os.path.dirname(__file__))
+if not os.path.exists(os.path.join(curr_dir, "../cache")):
+    os.makedirs(os.path.join(curr_dir, "../cache"))
 @st.cache_data
 # Save the updated results to a local JSON file
 def save_overpassResults(overpass_results):
@@ -86,7 +88,7 @@ def overpass_search(location):
             st.error(f"Error decoding JSON response: {e}")
             st.write("Response content:", response.content)
             return None
-    st.error("Exceeded maximum retries.") #<-- Still experimenting in this one :)
+    st.error("Exceeded maximum retries.") #<-- Still experimenting on this one :)
     return None
 
 class MapUtils:
@@ -108,12 +110,13 @@ class MapUtils:
                 database="db_strlit"
             )
         except Error as e:
-            raise RuntimeError(f"Failed to create connection pool. Detail: {e}")
+            st.error("Failed to create connection pool. Check if xampp is started correctly by pressing the start button on the Apache and MySQL options.\n\n"
+                     f"Details: {e}")
     def db_connection(self):
         try:
             return self.dbPool.get_connection()
         except Error as e:
-            raise RuntimeError(f'Something went wrong, unable to get a connection from the pool. Detail: {e}')
+            raise RuntimeError(f'Something went wrong, unable to get a connection from the pool. Details: {e}')
     def load_data_from_db(self):
         conn = None
         cursor = None
@@ -124,9 +127,9 @@ class MapUtils:
             data = cursor.fetchall()
             return data
         except Error as e:
-            st.error(f"The database aren't made yet. You have to get some data first.\n\n"
+            st.error(f"Oops! an error occured. Unable to find the database.\n\n"
                      f"You might wanna visit the Get New Data menu.\n\n"
-                     f"Detail: {e}")
+                     f"Details: {e}")
         finally:
             if cursor:
                 cursor.close()
@@ -304,19 +307,24 @@ class MapUtils:
             </div>
             """, height=500)
         except Exception as e:
-            st.error("An error occured, sorry for the inconvenience :(\n\n"
-                    f"Detail: {e}")
+            st.error("Oops! an unexpected error occured. You might wanna do this steps: \n\n"
+                    "1. Make sure the data is available. You can get or process some data on the Get New Data Menu\n"
+                    "2. Check if xampp is started correctly by pressing the start button on the Apache and MySQL options\n"
+                    "3. Check your network connection, make sure it's stable\n"
+                    "4. Reload the page or restart the app\n\n"
+                    "Sorry for the inconvenience (˶ᵕ︵ᵕ˶)\n\n"
+                    f"Details: {e}")
     def filter_data_by_location(self, location):
         try:
             filtered_loc = [entry for entry in self.get_data() if entry['location'] == location]
             return filtered_loc
         except Exception as e:
             st.error("An error occured, sorry for the inconvenience :(\n\n"
-                    f"Detail: {e}")
+                    f"Details: {e}")
     def filter_data_by_category(self, category):
         try:
             filtered_cat = [entry for entry in self.get_data() if entry['category'] == category]
             return filtered_cat
         except Exception as e:
             st.error("An error occured, sorry for the inconvenience :(\n\n"
-                    f"Detail: {e}")
+                    f"Details: {e}")

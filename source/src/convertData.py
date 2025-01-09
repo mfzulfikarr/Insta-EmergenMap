@@ -19,8 +19,11 @@ def sortData (folderRaw):
 try:
     folderRaw = os.path.join(curr_dir, "../scrape-results")
     if not os.path.exists(folderRaw):
-        raise FileNotFoundError(f"Hmm, I can't find the {folderRaw} folder")
+        raise FileNotFoundError(f"Hmm, I can't find the {folderRaw} folder, make sure you put all the data inside scrape-results folder. You may create one if it's not yet exist.\n\n"
+                                "Sorry for the inconvenience (˶ᵕ︵ᵕ˶)")
     dfRaw = sortData(folderRaw)
+    if not os.path.exists(os.path.join(curr_dir, '../Datasets')):
+        os.makedirs(os.path.join(curr_dir, '../Datasets'))
     dfRaw.to_csv(os.path.join(curr_dir, '../Datasets/mergedData.csv'), index=False)
 except:
     print(f"Hmm, There's an error. I suggest to check the {folderRaw} folder")

@@ -21,7 +21,8 @@ def confirmed(src_id, since_str, until_str, date_diff):
             f"Search from: **{src_id}**\n\n"
             f"Search since: **{since_str}**\n\n"
             f"Search Until: **{until_str} ({date_diff} days)**\n\n"
-            "If it's correct you may press Confirm to start")
+            "If it's correct you may press Confirm to start\n\n"
+            "This dialog will not automatically closed. After the process started you can click the close button at the top right corner of this dialog.")
     if st.button("Confirm"):
         st.session_state.confirmed = True
         st.rerun()
@@ -34,7 +35,8 @@ def confirmed(src_id, since_str, until_str, date_diff):
 def confirmedSkip():
     st.write(f"Confirmation: \n\n"
             "No data collecting will be performed, only data processing\n\n"
-            "You may press Confirm to start when you ready")
+            "You may press Confirm to start when you ready\n\n"
+            "This dialog will not automatically closed. After the process started you can click the close button at the top right corner of this dialog.")
     if st.button("Confirm"):
         st.session_state.confirmed = True
         st.rerun()
@@ -60,7 +62,7 @@ def load_predicted_data():
         df = pd.read_csv(os.path.join(curr_dir, '../source/Datasets/extractedData.csv'))
         return df
     except FileNotFoundError:
-        st.error("Data Not Found")
+        st.error("Unable to find any data. If you already have the data make sure it has the same format as in the guide in the start menu")
         return None
 # Processing Function
 

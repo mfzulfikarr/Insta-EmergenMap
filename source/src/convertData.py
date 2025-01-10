@@ -17,9 +17,9 @@ def sortData (folderRaw):
     dfRaw = pd.DataFrame(data, columns=['datetime', 'content'])
     return dfRaw
 try:
-    folderRaw = os.path.join(curr_dir, "../scrape-results")
+    folderRaw = os.path.join(curr_dir, "../collection")
     if not os.path.exists(folderRaw):
-        raise FileNotFoundError(f"Hmm, I can't find the {folderRaw} folder, make sure you put all the data inside scrape-results folder. You may create one if it's not yet exist.\n\n"
+        raise FileNotFoundError(f"Hmm, I can't find the {folderRaw} folder, make sure you put all the data inside collection folder. You may create one if it's not yet exist.\n\n"
                                 "Sorry for the inconvenience (˶ᵕ︵ᵕ˶)")
     dfRaw = sortData(folderRaw)
     if not os.path.exists(os.path.join(curr_dir, '../Datasets')):

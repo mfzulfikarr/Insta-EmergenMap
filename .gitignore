@@ -6,3 +6,6 @@
 /source/scrape-results
 /source/src/__pycache__
 /source/src/util/__pycache__
+source/corpuses/ngramDataset1m_all.txt
+/pages/__pycache__
+*.pyc

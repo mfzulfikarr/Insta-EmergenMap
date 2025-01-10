@@ -112,7 +112,7 @@ if selected_location and selected_location != 'Select Location':
         if df_by_year.empty:
             st.write('There\'s no data available (˶╹o╹˶)')
         else:
-            st.dataframe(df_by_year, use_container_width=True, hide_index=True, column_config={"id":None})
+            st.dataframe(df_by_year, use_container_width=True, hide_index=True, column_config={"id":None, "isinfo":None})
     else:
         st.write('')
 
@@ -136,6 +136,6 @@ if selected_category and selected_category != 'Select Type':
         if df_by_year.empty:
             st.write('There\'s no data available (˶╹o╹˶)')
         else:
-            st.dataframe(df_by_year, use_container_width=True, hide_index=True, column_config={"id":None})
+            st.dataframe(df_by_year, use_container_width=True, hide_index=True, column_config={"id":None, "isinfo":None})
     else:
         st.write('')

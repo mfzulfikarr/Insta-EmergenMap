@@ -11,7 +11,7 @@ src_str = sys.argv[3]
 SINCE = datetime.strptime(since_str, "%Y-%m-%d") # Convert to datetime format
 UNTIL = datetime.strptime(until_str, "%Y-%m-%d")
 L = instaloader.Instaloader() # Initiate Instaloader
-# Filtering the scraping info, only the caption is needed
+# Filtering the collection info, only the caption is needed
 L.download_pictures = False
 L.download_videos = False
 L.download_video_thumbnails = False
@@ -36,7 +36,7 @@ except Exception as e:
     print(f"Oops, an unexpected error occured. Sorry for the inconvenience (˶ᵕ︵ᵕ˶)", file=sys.stderr)
     sys.exit(1)
 posts = profile.get_posts()
-directory = os.path.join(curr_dir, "../scrape-results")
+directory = os.path.join(curr_dir, "../collection")
 if not os.path.exists(directory):
     os.makedirs(directory, exist_ok=True)
 # Using it's date and time of the posts for the filename because it's simpler to process :v
@@ -44,10 +44,10 @@ def save_caption(post):
     filename = os.path.join(directory, post.date_utc.strftime("%Y-%m-%d_%H-%M-%S_UTC.txt"))
     with open(filename, 'w', encoding='utf-8') as f:
         f.write(post.caption if post.caption else "")
-# Bug Workaround, Threshold for the scraper to get data older than the requested date
+# Bug Workaround, Threshold to get data older than the requested date
 max_old_posts = 50
 old_post_count = 0
-# Filter the scraped posts that are in accordance with the requested date
+# Filter the posts that are in accordance with the requested date
 for post in posts:
     if SINCE <= post.date_utc <= UNTIL:
         save_caption(post)

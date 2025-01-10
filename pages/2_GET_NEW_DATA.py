@@ -66,9 +66,9 @@ def load_predicted_data():
         return None
 # Processing Function
 
-def scrapingData(src_id, since_str, until_str_adj):
+def collectData(src_id, since_str, until_str_adj):
     progressBar.progress(17, text ="Reading the newspaper...")
-    run_script(os.path.join(curr_dir, "../source/src/runscraper.py"), since_str, until_str_adj, src_id)
+    run_script(os.path.join(curr_dir, "../source/src/runCollector.py"), since_str, until_str_adj, src_id)
 def processingData():
     progressBar.progress(34, text ="Reading the newspaper...")
     run_script(os.path.join(curr_dir, "../source/src/convertData.py"))
@@ -142,18 +142,18 @@ def upload_data_to_db(df):
 # Main Functions
 def main():
     st.title("Get New Data")
-    skipScrape = st.checkbox("I already have the data, just need it to be processed to the map")
-    if skipScrape:
+    skipcollector = st.checkbox("I already have the data, just need it to be processed to the map")
+    if skipcollector:
         try:
-            src_id = st.text_input("Instagram ID without @", placeholder="Example: jakarta.terkini", disabled=True).lstrip('@')
-            since_date = st.date_input("Search Since", datetime.now().date() - timedelta(days=10), max_value = datetime.now(), disabled=True)
+            src_id = st.text_input("Instagram ID without @", placeholder="Example: my.username_", disabled=True).lstrip('@')
+            since_date = st.date_input("Search Since", datetime.now().date() - timedelta(days=3), max_value = datetime.now(), disabled=True)
             until_date = st.date_input("Search Until", datetime.now().date(), min_value = since_date, max_value = datetime.now(), disabled=True)
         except Exception as e:
             st.error(f"An error occurred: {e}")
     else:
-        src_id = st.text_input("Instagram ID without @", placeholder="Example: jakarta.terkini", disabled=st.session_state.disabled).lstrip('@')
+        src_id = st.text_input("Instagram ID without @", placeholder="Example: my.username_", disabled=st.session_state.disabled).lstrip('@')
         try:
-            since_date = st.date_input("Search Since", datetime.now().date() - timedelta(days=10), max_value = datetime.now(), disabled=st.session_state.disabled)
+            since_date = st.date_input("Search Since", datetime.now().date() - timedelta(days=3), max_value = datetime.now(), disabled=st.session_state.disabled)
         except:
             st.error("Whoa! You almost travel to the future there (￣ᴗ￣ᵕ)\n\n"
                     "The Since Date could not be higher than Today's Date.")
@@ -166,7 +166,7 @@ def main():
     startBtn = st.button("Start Processing", on_click=btn_status)
     if startBtn:
         try:
-            if skipScrape:
+            if skipcollector:
                 confirmedSkip()
             else:
                 if not src_id.strip():
@@ -182,8 +182,8 @@ def main():
         except Exception as e:
             st.error(f"An error occured: {e}")
     if st.session_state.confirmed:
-        if not skipScrape:
-            scrapingData(src_id, since_str, until_str_adj)
+        if not skipcollector:
+            collectData(src_id, since_str, until_str_adj)
         processingData()
         df = load_predicted_data()
         if df is not None:

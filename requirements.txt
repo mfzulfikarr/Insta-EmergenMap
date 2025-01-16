@@ -1,0 +1,15 @@
+dill
+folium
+geopy
+instaloader
+matplotlib
+mysql-connector-python
+nltk
+numpy
+pandas
+PySastrawi
+Sastrawi
+scikit_learn
+seaborn==0.13.2
+streamlit==1.40.1
+streamlit_folium==0.20.0

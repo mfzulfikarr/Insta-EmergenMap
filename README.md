@@ -65,7 +65,7 @@ Further guides available in the project start pages.
 
 ## Known Bugs
 1. Buttons inside the streamlit dialog for data confirmation are able to be clicked multiple times which causing the project to spitting bars in a form of error logs.
-2. Same as the get new data button it can be clicked multiple times and makes the project spitting some error logs.
+2. Same for the get new data button it can be clicked multiple times and makes the project spitting some error logs.
 3. The progress bar is stuck to the top of the page.
 4. The tag filter button overlaps when clicking for the first filter.
 5. The graph can be really big or really small randomly.

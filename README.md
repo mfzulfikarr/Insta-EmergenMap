@@ -11,7 +11,7 @@ This project may only be used for educational purposes only WITH THE AGREEMENT B
 - [Notice](#notice) | [Features](#features) | [Requirements](#requirements) | [Installation](#installation)
 - [Getting Started](#getting-started) | [Run the Project](#run-the-project)
 - [Known Bugs](#known-bugs) | [Upcoming Features and WIP BugFix](#upcoming-features-and-wip-bugfix)
-- [LICENSE](LICENSE)
+- [LICENSE](#license)
 ## Features
 1. Auto Data Collection and Processing.
 2. Shows an estimate location by highlighting the streets or circling the closest building or point of interest from the exact emergency location.

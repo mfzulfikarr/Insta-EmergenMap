@@ -67,7 +67,6 @@ def load_predicted_data():
         st.error("Unable to find any data. If you already have the data make sure it has the same format as in the guide in the start menu")
         return None
 # Processing Function
-
 def collectData(src_id, since_str, until_str_adj):
     progressBar.progress(17, text ="Reading the newspaper...")
     run_script(os.path.join(curr_dir, "../source/src/runCollector.py"), since_str, until_str_adj, src_id)
@@ -158,13 +157,6 @@ def main():
         src_id, since_date, until_date = input_form(disabled=True)
     else:
         src_id, since_date, until_date = input_form(disabled=st.session_state.disabled)
-        # src_id = st.text_input("Instagram ID without @", placeholder="Example: my.username_", disabled=st.session_state.disabled).lstrip('@')
-        # try:
-        #     since_date = st.date_input("Search Since", datetime.now().date() - timedelta(days=3), max_value = datetime.now(), disabled=st.session_state.disabled)
-        # except:
-        #     st.error("Whoa! You almost travel to the future there (￣ᴗ￣ᵕ)\n\n"
-        #             "The Since Date could not be higher than Today's Date.")
-        # until_date = st.date_input("Search Until", datetime.now().date(), min_value = since_date, max_value = datetime.now(), disabled=st.session_state.disabled)
         until_date_adj = until_date + timedelta(days=1)
         date_diff = (until_date - since_date).days
         since_str = since_date.strftime("%Y-%m-%d")

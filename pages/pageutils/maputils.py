@@ -319,12 +319,12 @@ class MapUtils:
             filtered_loc = [entry for entry in self.get_data() if entry['location'] == location]
             return filtered_loc
         except Exception as e:
-            st.error("An error occured, sorry for the inconvenience :(\n\n"
+            st.error("An error occured, sorry for the inconvenience (˶ᵕ︵ᵕ˶)\n\n"
                     f"Details: {e}")
     def filter_data_by_category(self, category):
         try:
             filtered_cat = [entry for entry in self.get_data() if entry['category'] == category]
             return filtered_cat
         except Exception as e:
-            st.error("An error occured, sorry for the inconvenience :(\n\n"
+            st.error("An error occured, sorry for the inconvenience (˶ᵕ︵ᵕ˶)\n\n"
                     f"Details: {e}")

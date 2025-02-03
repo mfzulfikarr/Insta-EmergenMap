@@ -1,10 +1,15 @@
 import pandas as pd
 import numpy as np
+import streamlit as st
 import os
+import sys
 curr_dir = os.path.dirname(__file__)
 # Sort and convert the raw data to CSV
 def sortData (folderRaw):
     fileList = [f for f in os.listdir(folderRaw) if f.endswith('.txt')]
+    if not fileList:
+        raise FileNotFoundError(f"Hmm, the .txt files inside the folder are not detected. Make sure it's in the collection folder\n\n"
+                                "Sorry for the inconvenience (˶ᵕ︵ᵕ˶)")
     data = []
     for fileName in fileList:
         convertName = fileName.split('.')[0]
@@ -19,11 +24,13 @@ def sortData (folderRaw):
 try:
     folderRaw = os.path.join(curr_dir, "../collection")
     if not os.path.exists(folderRaw):
+        os.makedirs(os.path.join(curr_dir, '../collection'))
         raise FileNotFoundError(f"Hmm, I can't find the {folderRaw} folder, make sure you put all the data inside collection folder. You may create one if it's not yet exist.\n\n"
                                 "Sorry for the inconvenience (˶ᵕ︵ᵕ˶)")
     dfRaw = sortData(folderRaw)
     if not os.path.exists(os.path.join(curr_dir, '../Datasets')):
         os.makedirs(os.path.join(curr_dir, '../Datasets'))
     dfRaw.to_csv(os.path.join(curr_dir, '../Datasets/mergedData.csv'), index=False)
-except:
-    print(f"Hmm, There's an error. I suggest to check the {folderRaw} folder")
+except FileNotFoundError as e:
+    st.error("An error occured, sorry for the inconvenience (˶ᵕ︵ᵕ˶)\n\n"
+            f"Details: {e}")

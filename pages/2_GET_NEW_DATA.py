@@ -57,6 +57,8 @@ def run_script(script_name, *args):
                  "4. Wait for a moment before continuing again\n\n"
                  "Sorry for the inconvenience (˶ᵕ︵ᵕ˶)\n\n"
                  f"Error in {script_name}. Details: {e.stderr}") #<-- The error handling isn't working well yet, so I have to improvise lol :p
+        st.session_state.confirmed = False
+        st.stop()
 def load_predicted_data():
     try:
         df = pd.read_csv(os.path.join(curr_dir, '../source/Datasets/extractedData.csv'))
@@ -139,25 +141,30 @@ def upload_data_to_db(df):
             cursor.close()
         if conn is not None and conn.is_connected():
             conn.close()
+def input_form(disabled=False):
+    src_id = st.text_input("Instagram ID without @", placeholder="Example: my.username_", disabled=disabled).lstrip('@')
+    try:
+        since_date = st.date_input("Search Since", datetime.now().date() - timedelta(days=3), max_value = datetime.now(), disabled=disabled)
+    except:
+        st.error("Whoa! You almost travel to the future there (￣ᴗ￣ᵕ)\n\n"
+                "The Since Date could not be higher than Today's Date.")
+    until_date = st.date_input("Search Until", datetime.now().date(), min_value = since_date, max_value = datetime.now(), disabled=disabled)
+    return src_id, since_date, until_date
 # Main Functions
 def main():
     st.title("Get New Data")
     skipcollector = st.checkbox("I already have the data, just need it to be processed to the map")
     if skipcollector:
-        try:
-            src_id = st.text_input("Instagram ID without @", placeholder="Example: my.username_", disabled=True).lstrip('@')
-            since_date = st.date_input("Search Since", datetime.now().date() - timedelta(days=3), max_value = datetime.now(), disabled=True)
-            until_date = st.date_input("Search Until", datetime.now().date(), min_value = since_date, max_value = datetime.now(), disabled=True)
-        except Exception as e:
-            st.error(f"An error occurred: {e}")
+        src_id, since_date, until_date = input_form(disabled=True)
     else:
-        src_id = st.text_input("Instagram ID without @", placeholder="Example: my.username_", disabled=st.session_state.disabled).lstrip('@')
-        try:
-            since_date = st.date_input("Search Since", datetime.now().date() - timedelta(days=3), max_value = datetime.now(), disabled=st.session_state.disabled)
-        except:
-            st.error("Whoa! You almost travel to the future there (￣ᴗ￣ᵕ)\n\n"
-                    "The Since Date could not be higher than Today's Date.")
-        until_date = st.date_input("Search Until", datetime.now().date(), min_value = since_date, max_value = datetime.now(), disabled=st.session_state.disabled)
+        src_id, since_date, until_date = input_form(disabled=st.session_state.disabled)
+        # src_id = st.text_input("Instagram ID without @", placeholder="Example: my.username_", disabled=st.session_state.disabled).lstrip('@')
+        # try:
+        #     since_date = st.date_input("Search Since", datetime.now().date() - timedelta(days=3), max_value = datetime.now(), disabled=st.session_state.disabled)
+        # except:
+        #     st.error("Whoa! You almost travel to the future there (￣ᴗ￣ᵕ)\n\n"
+        #             "The Since Date could not be higher than Today's Date.")
+        # until_date = st.date_input("Search Until", datetime.now().date(), min_value = since_date, max_value = datetime.now(), disabled=st.session_state.disabled)
         until_date_adj = until_date + timedelta(days=1)
         date_diff = (until_date - since_date).days
         since_str = since_date.strftime("%Y-%m-%d")
@@ -165,23 +172,33 @@ def main():
         until_str_adj = until_date_adj.strftime("%Y-%m-%d")
     startBtn = st.button("Start Processing", on_click=btn_status)
     if startBtn:
+        st.session_state.confirmed = False
         try:
             if skipcollector:
                 confirmedSkip()
             else:
                 if not src_id.strip():
-                    st.error("Oops! The Instagram ID is still empty (￣ᴗ￣ᵕ)")
+                    st.error("Oops! The Instagram ID is still empty (￣ᴗ￣ᵕ)\n\nResetting. Please wait... Or you may press the restart button below.")
+                    st.session_state.disabled = False
+                    if st.button("Restart"):
+                        st.rerun()
+                    time.sleep(8)
+                    st.rerun()
                 elif until_date > datetime.now().date():
                     st.error("Oops! I guess there is a mix up (￣ᴗ￣ᵕ)\n\n"
                             "The Until Date could not be higher than Today's Date.")
+                    st.session_state.disabled = False
                 elif until_date < since_date:
                     st.error("Oops! I guess there is a mix up (￣ᴗ￣ᵕ)\n\n"
                             "The Since Date should not be higher than the Until Date.")
+                    st.session_state.disabled = False
                 else:
                     confirmed(src_id, since_str, until_str, date_diff)
         except Exception as e:
             st.error(f"An error occured: {e}")
+            st.session_state.disabled = False
     if st.session_state.confirmed:
+        startBtn = st.button("Start Processing", on_click=btn_status)
         if not skipcollector:
             collectData(src_id, since_str, until_str_adj)
         processingData()

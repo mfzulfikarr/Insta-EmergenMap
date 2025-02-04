@@ -65,16 +65,17 @@ Further guides available in the project start pages.
 
 ## Known Bugs
 1. Buttons inside the streamlit dialog for data confirmation are able to be clicked multiple times which causing the project to spitting bars in a form of error logs.
-2. Same for the get new data button it can be clicked multiple times and makes the project spitting some error logs.
+2. Same for the get new data button, it can be clicked multiple times and makes the project spitting some error logs.
 3. The progress bar is stuck to the top of the page.
 4. The tag filter button overlaps when clicking for the first filter.
 5. The graph can be really big or really small randomly.
 
-## Upcoming Features and WIP BugFix
+## WIP BugFix and Upcoming Features
 1. Clickable marker (still trying to find a workaround for streamlit-folium map).
 2. Safer way to show confirmation dialog.
-3. More stronger and accurate models.
-4. Reinforcement Learning from Human Feedback (RLHF).
+3. Error and other message/notification bugs.
+4. More stronger and accurate models.
+5. Reinforcement Learning from Human Feedback (RLHF).
 
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

@@ -11,3 +11,4 @@ source/corpuses/ngramDataset1m_all.txt
 *.pyc
 /pages/pageutils/__pycache__
 *.pyc
+/pages/pageutils/__pycache__

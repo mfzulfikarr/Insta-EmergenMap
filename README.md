@@ -1,6 +1,6 @@
 # Insta-EmergenMap
 Shows map of recent emergency situations in South Jakarta from Instagram with Instaloader
-[![Map](https://github.com/mfzulfikarr/Insta-EmergenMap/raw/master/img/map.png)]
+[![Map](https://raw.githubusercontent.com/mfzulfikarr/Insta-EmergenMap/refs/heads/main/img/map.png)]
 ## Notice
 THIS PROJECT IS INTENDED SOLELY FOR PERSONAL OR NON-COMMERCIAL USE.
 
